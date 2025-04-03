@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Modelo;
 using Modelo.Entities;
 
@@ -7,7 +8,12 @@ namespace Logica
 {
     public class UsuarioController
     {
-        BaseDatos baseDatos = new BaseDatos();
+        private BaseDatos baseDatos;
+
+        public UsuarioController()
+        {
+            baseDatos = new BaseDatos();
+        }
 
         public List<CUsuario> GetAll()
         {
@@ -58,6 +64,23 @@ namespace Logica
             {
                 Console.WriteLine("Error al eliminar usuario: " + ex.Message);
                 return false;
+            }
+        }
+
+        public CUsuario ValidarUsuario(string nombreUsuario, string contrasena)
+        {
+            try
+            {
+                var usuarios = baseDatos.ObtenerTodosUsuarios();
+                if (usuarios == null) return null;
+
+                return usuarios.FirstOrDefault(u => 
+                    u.nombre_completo.Equals(nombreUsuario, StringComparison.OrdinalIgnoreCase) && 
+                    u.contrasena == contrasena);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al validar usuario: {ex.Message}");
             }
         }
     }

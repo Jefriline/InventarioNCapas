@@ -20,7 +20,6 @@
             base.Dispose(disposing);
         }
 
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -29,203 +28,226 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tableLayoutPanel1 = new TableLayoutPanel();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            tableLayoutPanel3 = new TableLayoutPanel();
-            rjButton2 = new RJButton();
-            btnGestionarProveedores = new RJButton();
-            btnGestionarUser = new RJButton();
-            tableLayoutPanel5 = new TableLayoutPanel();
-            vScrollBar2 = new VScrollBar();
+            panel1 = new Panel();
+            btnGestionarUser = new Button();
+            btnGestionarProveedores = new Button();
+            btnAddProduct = new Button();
+            panel2 = new Panel();
             label1 = new Label();
-            tableLayoutPanel1.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
-            tableLayoutPanel5.SuspendLayout();
+            panel3 = new Panel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            panel4 = new Panel();
+            comboBoxFiltros = new ComboBox();
+            textBoxBuscar = new TextBox();
+            label2 = new Label();
+            button1 = new Button();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            panel3.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
-            // tableLayoutPanel1
+            // panel1
             // 
-            tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 2);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 1, 3);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel5, 2, 2);
-            tableLayoutPanel1.Controls.Add(label1, 1, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 4;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 0F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 75F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(1160, 666);
-            tableLayoutPanel1.TabIndex = 0;
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(61, 69);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 4;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.Size = new Size(1038, 493);
-            tableLayoutPanel2.TabIndex = 0;
-            // 
-            // tableLayoutPanel3
-            // 
-            tableLayoutPanel3.ColumnCount = 3;
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
-            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tableLayoutPanel3.Controls.Add(rjButton2, 1, 0);
-            tableLayoutPanel3.Controls.Add(btnGestionarProveedores, 0, 0);
-            tableLayoutPanel3.Controls.Add(btnGestionarUser, 2, 0);
-            tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(61, 568);
-            tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 1;
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel3.Size = new Size(1038, 95);
-            tableLayoutPanel3.TabIndex = 1;
-            // 
-            // rjButton2
-            // 
-            rjButton2.BackColor = Color.Black;
-            rjButton2.BackgroundColor = Color.Black;
-            rjButton2.BorderColor = Color.Black;
-            rjButton2.BorderRadius = 1;
-            rjButton2.BorderSize = 1;
-            rjButton2.FlatAppearance.BorderSize = 0;
-            rjButton2.FlatStyle = FlatStyle.Flat;
-            rjButton2.Font = new Font("Bahnschrift", 14F, FontStyle.Bold);
-            rjButton2.ForeColor = Color.White;
-            rjButton2.Location = new Point(418, 20);
-            rjButton2.Margin = new Padding(3, 20, 3, 3);
-            rjButton2.Name = "rjButton2";
-            rjButton2.Size = new Size(200, 54);
-            rjButton2.TabIndex = 0;
-            rjButton2.Text = "Agregar un Producto";
-            rjButton2.TextColor = Color.White;
-            rjButton2.UseVisualStyleBackColor = false;
-            rjButton2.Click += rjButton2_Click;
-            // 
-            // btnGestionarProveedores
-            // 
-            btnGestionarProveedores.BackColor = Color.Black;
-            btnGestionarProveedores.BackgroundColor = Color.Black;
-            btnGestionarProveedores.BorderColor = Color.Black;
-            btnGestionarProveedores.BorderRadius = 1;
-            btnGestionarProveedores.BorderSize = 1;
-            btnGestionarProveedores.FlatAppearance.BorderSize = 0;
-            btnGestionarProveedores.FlatStyle = FlatStyle.Flat;
-            btnGestionarProveedores.Font = new Font("Bahnschrift", 14F, FontStyle.Bold);
-            btnGestionarProveedores.ForeColor = Color.White;
-            btnGestionarProveedores.Location = new Point(30, 20);
-            btnGestionarProveedores.Margin = new Padding(30, 20, 3, 3);
-            btnGestionarProveedores.Name = "btnGestionarProveedores";
-            btnGestionarProveedores.Size = new Size(200, 54);
-            btnGestionarProveedores.TabIndex = 1;
-            btnGestionarProveedores.Text = "Gestionar Proveedores";
-            btnGestionarProveedores.TextColor = Color.White;
-            btnGestionarProveedores.UseVisualStyleBackColor = false;
-            btnGestionarProveedores.Click += btnGestionarProveedores_Click;
+            panel1.BackColor = Color.FromArgb(0, 122, 204);
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(btnGestionarUser);
+            panel1.Controls.Add(btnGestionarProveedores);
+            panel1.Controls.Add(btnAddProduct);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(4, 5, 4, 5);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(300, 748);
+            panel1.TabIndex = 0;
             // 
             // btnGestionarUser
             // 
-            btnGestionarUser.BackColor = Color.Black;
-            btnGestionarUser.BackgroundColor = Color.Black;
-            btnGestionarUser.BorderColor = Color.Black;
-            btnGestionarUser.BorderRadius = 1;
-            btnGestionarUser.BorderSize = 1;
+            btnGestionarUser.BackColor = Color.FromArgb(0, 122, 204);
             btnGestionarUser.FlatAppearance.BorderSize = 0;
             btnGestionarUser.FlatStyle = FlatStyle.Flat;
-            btnGestionarUser.Font = new Font("Bahnschrift", 14F, FontStyle.Bold);
+            btnGestionarUser.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnGestionarUser.ForeColor = Color.White;
-            btnGestionarUser.Location = new Point(802, 20);
-            btnGestionarUser.Margin = new Padding(180, 20, 3, 3);
+            btnGestionarUser.Location = new Point(18, 323);
+            btnGestionarUser.Margin = new Padding(4, 5, 4, 5);
             btnGestionarUser.Name = "btnGestionarUser";
-            btnGestionarUser.Size = new Size(200, 54);
+            btnGestionarUser.Size = new Size(264, 65);
             btnGestionarUser.TabIndex = 2;
             btnGestionarUser.Text = "Gestionar Usuarios";
-            btnGestionarUser.TextColor = Color.White;
             btnGestionarUser.UseVisualStyleBackColor = false;
             btnGestionarUser.Click += btnGestionarUser_Click;
             // 
-            // tableLayoutPanel5
+            // btnGestionarProveedores
             // 
-            tableLayoutPanel5.ColumnCount = 3;
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45.1076126F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 39.856514F));
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.0358715F));
-            tableLayoutPanel5.Controls.Add(vScrollBar2, 1, 0);
-            tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(1105, 69);
-            tableLayoutPanel5.Name = "tableLayoutPanel5";
-            tableLayoutPanel5.RowCount = 1;
-            tableLayoutPanel5.RowStyles.Add(new RowStyle());
-            tableLayoutPanel5.Size = new Size(52, 493);
-            tableLayoutPanel5.TabIndex = 4;
+            btnGestionarProveedores.BackColor = Color.FromArgb(0, 122, 204);
+            btnGestionarProveedores.FlatAppearance.BorderSize = 0;
+            btnGestionarProveedores.FlatStyle = FlatStyle.Flat;
+            btnGestionarProveedores.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnGestionarProveedores.ForeColor = Color.White;
+            btnGestionarProveedores.Location = new Point(18, 226);
+            btnGestionarProveedores.Margin = new Padding(4, 5, 4, 5);
+            btnGestionarProveedores.Name = "btnGestionarProveedores";
+            btnGestionarProveedores.Size = new Size(264, 65);
+            btnGestionarProveedores.TabIndex = 1;
+            btnGestionarProveedores.Text = "Gestionar Proveedores";
+            btnGestionarProveedores.UseVisualStyleBackColor = false;
+            btnGestionarProveedores.Click += btnGestionarProveedores_Click;
             // 
-            // vScrollBar2
+            // btnAddProduct
             // 
-            vScrollBar2.Location = new Point(23, 0);
-            vScrollBar2.Name = "vScrollBar2";
-            vScrollBar2.Size = new Size(17, 80);
-            vScrollBar2.TabIndex = 0;
-            vScrollBar2.Visible = false;
+            btnAddProduct.BackColor = Color.FromArgb(0, 122, 204);
+            btnAddProduct.FlatAppearance.BorderSize = 0;
+            btnAddProduct.FlatStyle = FlatStyle.Flat;
+            btnAddProduct.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnAddProduct.ForeColor = Color.White;
+            btnAddProduct.Location = new Point(18, 129);
+            btnAddProduct.Margin = new Padding(4, 5, 4, 5);
+            btnAddProduct.Name = "btnAddProduct";
+            btnAddProduct.Size = new Size(264, 65);
+            btnAddProduct.TabIndex = 0;
+            btnAddProduct.Text = "Agregar Producto";
+            btnAddProduct.UseVisualStyleBackColor = false;
+            btnAddProduct.Click += btnAddProduct_Click;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.White;
+            panel2.Controls.Add(label1);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(300, 0);
+            panel2.Margin = new Padding(4, 5, 4, 5);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1070, 97);
+            panel2.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Dock = DockStyle.Fill;
-            label1.Font = new Font("Bahnschrift SemiCondensed", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(508, 5);
-            label1.Margin = new Padding(450, 5, 450, 21);
+            label1.Font = new Font("Bahnschrift", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.FromArgb(0, 122, 204);
+            label1.Location = new Point(24, 27);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(144, 40);
-            label1.TabIndex = 5;
-            label1.Text = "Inventario";
-            label1.TextAlign = ContentAlignment.TopCenter;
+            label1.Size = new Size(106, 25);
+            label1.TabIndex = 0;
+            label1.Text = "Productos";
             // 
-            // Home
+            // panel3
+            // 
+            panel3.Controls.Add(flowLayoutPanel1);
+            panel3.Controls.Add(panel4);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(300, 97);
+            panel3.Margin = new Padding(4, 5, 4, 5);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1070, 651);
+            panel3.TabIndex = 2;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.Location = new Point(0, 97);
+            flowLayoutPanel1.Margin = new Padding(4, 5, 4, 5);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(1070, 554);
+            flowLayoutPanel1.TabIndex = 1;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.White;
+            panel4.Controls.Add(comboBoxFiltros);
+            panel4.Controls.Add(textBoxBuscar);
+            panel4.Controls.Add(label2);
+            panel4.Dock = DockStyle.Top;
+            panel4.Location = new Point(0, 0);
+            panel4.Margin = new Padding(4, 5, 4, 5);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(1070, 97);
+            panel4.TabIndex = 0;
+            // 
+            // comboBoxFiltros
+            // 
+            comboBoxFiltros.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            comboBoxFiltros.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxFiltros.Font = new Font("Bahnschrift", 12F);
+            comboBoxFiltros.FormattingEnabled = true;
+            comboBoxFiltros.Location = new Point(710, 26);
+            comboBoxFiltros.Margin = new Padding(4, 5, 4, 5);
+            comboBoxFiltros.Name = "comboBoxFiltros";
+            comboBoxFiltros.Size = new Size(340, 27);
+            comboBoxFiltros.TabIndex = 2;
+            // 
+            // textBoxBuscar
+            // 
+            textBoxBuscar.Font = new Font("Bahnschrift", 12F);
+            textBoxBuscar.Location = new Point(123, 26);
+            textBoxBuscar.Margin = new Padding(4, 5, 4, 5);
+            textBoxBuscar.Name = "textBoxBuscar";
+            textBoxBuscar.Size = new Size(448, 27);
+            textBoxBuscar.TabIndex = 1;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Bahnschrift", 12F);
+            label2.Location = new Point(26, 31);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(63, 19);
+            label2.TabIndex = 0;
+            label2.Text = "Buscar:";
+            // 
+            // button1
+            // 
+            button1.BackColor = Color.FromArgb(0, 122, 204);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Font = new Font("Bahnschrift", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            button1.ForeColor = Color.Red;
+            button1.Location = new Point(13, 415);
+            button1.Margin = new Padding(4, 5, 4, 5);
+            button1.Name = "button1";
+            button1.Size = new Size(264, 65);
+            button1.TabIndex = 3;
+            button1.Text = "Facturas";
+            button1.UseVisualStyleBackColor = false;
+            // 
+            // HomeAdmin
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1160, 666);
-            Controls.Add(tableLayoutPanel1);
-            Name = "Home";
-            Text = "Home";
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
-            tableLayoutPanel3.ResumeLayout(false);
-            tableLayoutPanel5.ResumeLayout(false);
+            ClientSize = new Size(1370, 748);
+            Controls.Add(panel3);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
+            Margin = new Padding(4, 5, 4, 5);
+            MinimumSize = new Size(1364, 718);
+            Name = "HomeAdmin";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Panel de Administración";
+            panel1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private TableLayoutPanel tableLayoutPanel1;
-        private TableLayoutPanel tableLayoutPanel2;
-        private TableLayoutPanel tableLayoutPanel5;
-        private Label label1;
-        private TableLayoutPanel tableLayoutPanel3;
-        private RJButton rjButton2;
-        private ProgressBar progressBar1;
-        private VScrollBar vScrollBar2;
-        private RJButton btnGestionarProveedores;
-        private RJButton btnGestionarUser;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnAddProduct;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnGestionarProveedores;
+        private System.Windows.Forms.Button btnGestionarUser;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxBuscar;
+        private System.Windows.Forms.ComboBox comboBoxFiltros;
+        private Button button1;
     }
 }

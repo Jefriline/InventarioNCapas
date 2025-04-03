@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,346 +11,363 @@ namespace Principal
 {
     public partial class HomeAdmin : Form
     {
-        // Constantes ajustadas para matching visual exacto
-        private const int CARD_WIDTH = 320;
-        private const int CARD_HEIGHT = 350;
-        private const int COLUMNS = 3;
-        private const int IMAGE_HEIGHT = 130;
-        private const int TEXT_MARGIN = 10;
-        private const int SCROLLBAR_WIDTH = 15;
-        private const int BUTTON_HEIGHT = 30;  // Altura reducida para botones
-        private const int BUTTON_WIDTH = 85;   // Ancho reducido para botones
-        private const int PRICE_WIDTH = 100;   // Ancho ajustado para precio
+        private ProductController productController;
+        private List<CProducto> todosLosProductos; // Lista para mantener todos los productos
+        private const int CARD_WIDTH = 200;
+        private const int CARD_HEIGHT = 320;
+        private const int BUTTON_WIDTH = 80;
+        private const int BUTTON_HEIGHT = 30;
 
         public HomeAdmin()
         {
             InitializeComponent();
-            DoubleBuffered = true;
-            SetupScroll();
-            Load += (s, e) => LoadProducts();
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            ConfigurarComponentes();
+            productController = new ProductController();
+            CargarProductos();
         }
 
-        private void SetupScroll()
+        private void ConfigurarComponentes()
         {
-            tableLayoutPanel2.AutoScroll = true;
-            vScrollBar2.Width = SCROLLBAR_WIDTH;
-            vScrollBar2.Scroll += (s, e) => tableLayoutPanel2.VerticalScroll.Value = vScrollBar2.Value;
+            // Configurar FlowLayoutPanel
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.WrapContents = true;
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+
+            // Configurar ComboBox de filtros
+            comboBoxFiltros.Items.AddRange(new object[] {
+                "Todos los productos",
+                "Stock bajo (< 10)",
+                "Sin stock",
+                "Más vendidos",
+                "Menos vendidos",
+                "Precio mayor a menor",
+                "Precio menor a mayor",
+                "Por proveedor"
+            });
+            comboBoxFiltros.SelectedIndex = 0;
+
+            // Configurar eventos
+            textBoxBuscar.TextChanged += TextBoxBuscar_TextChanged;
+            comboBoxFiltros.SelectedIndexChanged += ComboBoxFiltros_SelectedIndexChanged;
         }
 
-        private void LoadProducts()
+        private void CargarProductos()
         {
             try
             {
-                tableLayoutPanel2.SuspendLayout();
-                tableLayoutPanel2.Controls.Clear();
-                tableLayoutPanel2.RowStyles.Clear();
-
-                var productos = new ProductController().ObtenerTodosProductos();
-                if (!productos.Any()) return;
-
-                tableLayoutPanel2.ColumnCount = COLUMNS;
-                for (int i = 0; i < COLUMNS; i++)
-                {
-                    tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f / COLUMNS));
-                }
-
-                int rowCount = (int)Math.Ceiling(productos.Count / (double)COLUMNS);
-                tableLayoutPanel2.RowCount = rowCount;
-
-                for (int i = 0; i < rowCount; i++)
-                {
-                    tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, CARD_HEIGHT));
-                }
-
-                for (int i = 0; i < productos.Count; i++)
-                {
-                    int row = i / COLUMNS;
-                    int col = i % COLUMNS;
-                    var card = CreateProductCard(productos[i]);
-                    card.Width = CARD_WIDTH - 20; // Ajuste para márgenes
-                    tableLayoutPanel2.Controls.Add(card, col, row);
-                }
+                todosLosProductos = productController.ObtenerTodosProductos();
+                AplicarFiltros();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error cargando productos: {ex.Message}");
-            }
-            finally
-            {
-                tableLayoutPanel2.ResumeLayout(true);
-                UpdateScroll();
+                MessageBox.Show($"Error al cargar productos: {ex.Message}", "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private Panel CreateProductCard(CProducto producto)
+        private void TextBoxBuscar_TextChanged(object sender, EventArgs e)
         {
-            var panel = new Panel
+            AplicarFiltros();
+        }
+
+        private void ComboBoxFiltros_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AplicarFiltros();
+        }
+
+        private void AplicarFiltros()
+        {
+            if (todosLosProductos == null) return;
+
+            // Aplicar filtro de búsqueda por texto
+            var productosFiltrados = todosLosProductos
+                .Where(p => string.IsNullOrEmpty(textBoxBuscar.Text) ||
+                           p.name.ToLower().Contains(textBoxBuscar.Text.ToLower()) ||
+                           p.codReferent.ToLower().Contains(textBoxBuscar.Text.ToLower()))
+                .ToList();
+
+            // Aplicar filtro seleccionado
+            switch (comboBoxFiltros.SelectedIndex)
             {
-                BackColor = Color.White,
-                Size = new Size(CARD_WIDTH - 20, CARD_HEIGHT - 20),
+                case 1: // Stock bajo
+                    productosFiltrados = productosFiltrados.Where(p => p.stock < 10).ToList();
+                    break;
+                case 2: // Sin stock
+                    productosFiltrados = productosFiltrados.Where(p => p.stock == 0).ToList();
+                    break;
+                case 3: // Más vendidos (por implementar lógica de ventas)
+                    break;
+                case 4: // Menos vendidos (por implementar lógica de ventas)
+                    break;
+                case 5: // Precio mayor a menor
+                    productosFiltrados = productosFiltrados.OrderByDescending(p => p.price).ToList();
+                    break;
+                case 6: // Precio menor a mayor
+                    productosFiltrados = productosFiltrados.OrderBy(p => p.price).ToList();
+                    break;
+                case 7: // Por proveedor
+                    var proveedores = productosFiltrados
+                        .Select(p => p.ProveedorNombre)
+                        .Distinct()
+                        .OrderBy(p => p)
+                        .ToList();
+                    
+                    if (proveedores.Any())
+                    {
+                        var formProveedores = new Form();
+                        formProveedores.Text = "Seleccionar Proveedor";
+                        formProveedores.Size = new Size(300, 400);
+                        formProveedores.StartPosition = FormStartPosition.CenterScreen;
+
+                        var listBox = new ListBox();
+                        listBox.Dock = DockStyle.Fill;
+                        listBox.Font = new Font("Bahnschrift", 12);
+                        listBox.Items.AddRange(proveedores.ToArray());
+
+                        var btnSeleccionar = new Button();
+                        btnSeleccionar.Text = "Seleccionar";
+                        btnSeleccionar.Dock = DockStyle.Bottom;
+                        btnSeleccionar.Height = 40;
+                        btnSeleccionar.Font = new Font("Bahnschrift", 12);
+                        btnSeleccionar.BackColor = Color.FromArgb(0, 122, 204);
+                        btnSeleccionar.ForeColor = Color.White;
+                        btnSeleccionar.FlatStyle = FlatStyle.Flat;
+
+                        string proveedorSeleccionado = null;
+                        btnSeleccionar.Click += (s, e) =>
+                        {
+                            if (listBox.SelectedItem != null)
+                            {
+                                proveedorSeleccionado = listBox.SelectedItem.ToString();
+                                formProveedores.Close();
+                            }
+                        };
+
+                        formProveedores.Controls.Add(listBox);
+                        formProveedores.Controls.Add(btnSeleccionar);
+                        formProveedores.ShowDialog();
+
+                        if (!string.IsNullOrEmpty(proveedorSeleccionado))
+                        {
+                            productosFiltrados = productosFiltrados
+                                .Where(p => p.ProveedorNombre == proveedorSeleccionado)
+                                .ToList();
+                        }
+                    }
+                    break;
+            }
+
+            MostrarProductos(productosFiltrados);
+        }
+
+        private void MostrarProductos(List<CProducto> productos)
+        {
+            flowLayoutPanel1.SuspendLayout();
+            flowLayoutPanel1.Controls.Clear();
+
+            foreach (var producto in productos)
+            {
+                var card = CrearTarjetaProducto(producto);
+                flowLayoutPanel1.Controls.Add(card);
+            }
+
+            if (productos.Count == 0)
+            {
+                var lblNoProductos = new Label
+                {
+                    Text = "No se encontraron productos",
+                    AutoSize = true,
+                    Font = new Font("Bahnschrift", 12),
+                    Padding = new Padding(10),
+                    Dock = DockStyle.Top
+                };
+                flowLayoutPanel1.Controls.Add(lblNoProductos);
+            }
+
+            flowLayoutPanel1.ResumeLayout();
+        }
+
+        private Panel CrearTarjetaProducto(CProducto producto)
+        {
+            // Panel principal
+            var card = new Panel
+            {
+                Width = CARD_WIDTH,
+                Height = CARD_HEIGHT,
                 Margin = new Padding(10),
-                Padding = new Padding(15),
                 BorderStyle = BorderStyle.FixedSingle,
-                Anchor = AnchorStyles.None
+                BackColor = Color.White
             };
 
-            // Efecto hover
-            panel.MouseEnter += (s, e) => panel.BackColor = Color.FromArgb(245, 245, 245);
-            panel.MouseLeave += (s, e) => panel.BackColor = Color.White;
+            // Panel para la imagen
+            var imagePanel = new Panel
+            {
+                Width = CARD_WIDTH - 20,
+                Height = 150,
+                Location = new Point(10, 10),
+                BorderStyle = BorderStyle.FixedSingle
+            };
 
-            // Layout principal con medidas exactas
-            var mainLayout = new TableLayoutPanel
+            // PictureBox para la imagen del producto
+            var pictureBox = new PictureBox
             {
                 Dock = DockStyle.Fill,
-                ColumnCount = 1,
-                RowCount = 4,
-                BackColor = Color.Transparent,
-                Margin = new Padding(0),
-                Padding = new Padding(0),
-                RowStyles = {
-                    new RowStyle(SizeType.Absolute, IMAGE_HEIGHT),    // Imagen
-                    new RowStyle(SizeType.Absolute, 60),              // Nombre y código (ajustado)
-                    new RowStyle(SizeType.Absolute, 35),              // Stock y proveedor (ajustado)
-                    new RowStyle(SizeType.Absolute, 80)               // Botones y precio (ajustado)
+                SizeMode = PictureBoxSizeMode.Zoom
+            };
+
+            if (producto.imagen != null && producto.imagen.Length > 0)
+            {
+                try
+                {
+                    using (var ms = new System.IO.MemoryStream(producto.imagen))
+                    {
+                        pictureBox.Image = Image.FromStream(ms);
+                    }
                 }
-            };
+                catch
+                {
+                    // Si hay error al cargar la imagen, no hacemos nada
+                }
+            }
 
-            // 1. Imagen del producto
-            var picBox = new PictureBox
-            {
-                Dock = DockStyle.Fill,
-                SizeMode = PictureBoxSizeMode.Zoom,
-                Image = ByteArrayToImage(producto.imagen),
-                Margin = new Padding(0, 0, 0, 10)
-            };
-            mainLayout.Controls.Add(picBox, 0, 0);
+            imagePanel.Controls.Add(pictureBox);
+            card.Controls.Add(imagePanel);
 
-            // 2. Panel para nombre y código
-            var nameCodePanel = new Panel
-            {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(0),
-                Margin = new Padding(0)
-            };
-
-            var lblName = new Label
+            // Etiquetas para la información del producto
+            var lblNombre = new Label
             {
                 Text = producto.name,
-                Dock = DockStyle.Top,
-                Font = new Font("Arial", 12, FontStyle.Bold),
-                ForeColor = Color.FromArgb(64, 64, 64),
-                Height = 30,
-                TextAlign = ContentAlignment.MiddleLeft,
-                AutoEllipsis = true
+                Font = new Font("Bahnschrift", 10, FontStyle.Bold),
+                Location = new Point(10, 170),
+                Width = CARD_WIDTH - 20,
+                Height = 20
             };
 
-            var lblCode = new Label
+            var lblCodigo = new Label
             {
-                Text = $"Ref: {producto.codReferent}",
-                Dock = DockStyle.Bottom,
-                Font = new Font("Arial", 9),
-                ForeColor = Color.Gray,
-                Height = 25,
-                TextAlign = ContentAlignment.MiddleLeft
+                Text = $"Código: {producto.codReferent}",
+                Font = new Font("Bahnschrift", 9),
+                Location = new Point(10, 190),
+                Width = CARD_WIDTH - 20
             };
 
-            nameCodePanel.Controls.Add(lblCode);
-            nameCodePanel.Controls.Add(lblName);
-            mainLayout.Controls.Add(nameCodePanel, 0, 1);
-
-            // 3. Panel para stock y proveedor
-            var stockProviderPanel = new TableLayoutPanel
+            var lblPrecio = new Label
             {
-                Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                RowCount = 1,
-                Margin = new Padding(0),
-                Padding = new Padding(0)
+                Text = $"Precio: ${producto.price:N2}",
+                Font = new Font("Bahnschrift", 9),
+                Location = new Point(10, 210),
+                Width = CARD_WIDTH - 20
             };
-            stockProviderPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            stockProviderPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
 
             var lblStock = new Label
             {
                 Text = $"Stock: {producto.stock}",
-                Dock = DockStyle.Fill,
-                Font = new Font("Arial", 9),
-                ForeColor = Color.DimGray,
-                TextAlign = ContentAlignment.MiddleLeft
+                Font = new Font("Bahnschrift", 9),
+                ForeColor = producto.stock < 10 ? Color.Red : Color.Black,
+                Location = new Point(10, 230),
+                Width = CARD_WIDTH - 20
             };
 
-            var lblProvider = new Label
+            var lblProveedor = new Label
             {
-                Text = !string.IsNullOrEmpty(producto.ProveedorNombre) ? producto.ProveedorNombre : "Sin proveedor",
-                Dock = DockStyle.Fill,
-                Font = new Font("Arial", 9, FontStyle.Italic),
-                ForeColor = Color.FromArgb(153, 51, 0), // Color Redbull
-                TextAlign = ContentAlignment.MiddleRight,
-                AutoEllipsis = true
+                Text = $"Proveedor: {producto.ProveedorNombre ?? "Sin proveedor"}",
+                Font = new Font("Bahnschrift", 9),
+                Location = new Point(10, 250),
+                Width = CARD_WIDTH - 20
             };
 
-            stockProviderPanel.Controls.Add(lblStock, 0, 0);
-            stockProviderPanel.Controls.Add(lblProvider, 1, 0);
-            mainLayout.Controls.Add(stockProviderPanel, 0, 2);
-
-            // 4. Panel para precio y botones
-            var bottomPanel = new Panel
+            // Botones
+            var btnEditar = new Button
             {
-                Dock = DockStyle.Fill,
-                Padding = new Padding(0, 5, 0, 0)
-            };
-
-            // Panel para los botones
-            var buttonPanel = new Panel
-            {
-                Width = (BUTTON_WIDTH * 2) + 15, // Ajustado para dar espacio suficiente
-                Height = BUTTON_HEIGHT,
-                Location = new Point(bottomPanel.Width - ((BUTTON_WIDTH * 2) + 15), BUTTON_HEIGHT + 10)
-            };
-
-            // Botones (permanecen exactamente igual)
-            var editButton = new Button
-            {
-                Text = "EDITAR",
+                Text = "Editar",
+                Size = new Size(90, 35),
+                Location = new Point(10, CARD_HEIGHT - 40),
                 BackColor = Color.FromArgb(0, 122, 204),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Arial", 8, FontStyle.Bold),
-                Size = new Size(BUTTON_WIDTH, BUTTON_HEIGHT),
-                Location = new Point(0, 0),
-                Tag = producto.codReferent
+                Font = new Font("Bahnschrift", 9, FontStyle.Regular)
             };
-            editButton.FlatAppearance.BorderSize = 0;
-            editButton.Click += (s, e) =>
-            {
-                var updateForm = new updateProduct(producto.codReferent) { StartPosition = FormStartPosition.CenterScreen };
-                updateForm.FormClosed += (s, args) => { this.Show(); LoadProducts(); };
-                updateForm.Show();
+            btnEditar.FlatAppearance.BorderSize = 0;
 
-            };
-
-            var deleteButton = new Button
+            var btnEliminar = new Button
             {
-                Text = "ELIMINAR",
+                Text = "Eliminar",
+                Size = new Size(90, 35),
+                Location = new Point(CARD_WIDTH - 100, CARD_HEIGHT - 40),
                 BackColor = Color.FromArgb(220, 53, 69),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Arial", 8, FontStyle.Bold),
-                Size = new Size(BUTTON_WIDTH, BUTTON_HEIGHT),
-                Location = new Point(BUTTON_WIDTH + 5, 0), // Reducido el espacio entre botones
-                Tag = producto.codReferent
+                Font = new Font("Bahnschrift", 9, FontStyle.Regular)
             };
-            deleteButton.FlatAppearance.BorderSize = 0;
-            deleteButton.Click += BtnEliminar_Click;
+            btnEliminar.FlatAppearance.BorderSize = 0;
 
-            buttonPanel.Controls.Add(editButton);
-            buttonPanel.Controls.Add(deleteButton);
-
-            // Panel para el precio con mejor manejo del espacio
-            var pricePanel = new Panel
+            // Eventos de los botones
+            btnEditar.Click += (s, e) =>
             {
-                Width = (BUTTON_WIDTH * 2) + 10,
-                Height = BUTTON_HEIGHT,
-                Location = new Point(5, 5) // Ajustado el margen izquierdo
-            };
-
-            var lblPrice = new Label
-            {
-                Text = $"S/.{producto.price:N2}",
-                Font = new Font("Arial", 12, FontStyle.Bold),
-                ForeColor = Color.FromArgb(0, 122, 204),
-                TextAlign = ContentAlignment.MiddleLeft,
-                AutoSize = false,
-                Dock = DockStyle.Fill
-            };
-
-            pricePanel.Controls.Add(lblPrice);
-            bottomPanel.Controls.Add(pricePanel);
-            bottomPanel.Controls.Add(buttonPanel);
-            mainLayout.Controls.Add(bottomPanel, 0, 3);
-
-            panel.Controls.Add(mainLayout);
-            return panel;
-        }
-
-        private void BtnEliminar_Click(object sender, EventArgs e)
-        {
-            if (sender is Button btn && btn.Tag is string codReferent)
-            {
-                var confirmResult = MessageBox.Show("¿Estás seguro de eliminar este producto?",
-                                                 "Confirmar Eliminación",
-                                                  MessageBoxButtons.YesNo,
-                                                  MessageBoxIcon.Warning);
-
-                if (confirmResult == DialogResult.Yes)
+                var updateForm = new updateProduct(producto.codReferent)
                 {
-                    var controller = new ProductController();
-                    var (success, message) = controller.EliminarProductoPorCodigo(codReferent);
+                    StartPosition = FormStartPosition.CenterScreen
+                };
+                updateForm.FormClosed += (s, args) => { CargarProductos(); };
+                updateForm.Show();
+                this.Hide();
+            };
 
-                    MessageBox.Show(message, success ? "Éxito" : "Error",
-                                 MessageBoxButtons.OK,
-                                 success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-
-                    if (success) LoadProducts();
+            btnEliminar.Click += (s, e) =>
+            {
+                if (MessageBox.Show("¿Está seguro de eliminar este producto?", "Confirmar eliminación",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var (success, message) = productController.EliminarProductoPorCodigo(producto.codReferent);
+                    if (success)
+                    {
+                        CargarProductos();
+                    }
+                    MessageBox.Show(message, success ? "Éxito" : "Error", 
+                        MessageBoxButtons.OK, 
+                        success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
                 }
-            }
+            };
+
+            // Agregar controles a la tarjeta
+            card.Controls.AddRange(new Control[] { 
+                imagePanel, lblNombre, lblCodigo, lblPrecio, 
+                lblStock, lblProveedor, btnEditar, btnEliminar 
+            });
+
+            return card;
         }
 
-        private Image ByteArrayToImage(byte[] byteArray)
+        private void btnAddProduct_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (byteArray == null || byteArray.Length == 0)
-                    return Properties.Resources.default_image;
-                using (var ms = new MemoryStream(byteArray))
-                    return Image.FromStream(ms);
-            }
-            catch
-            {
-                return Properties.Resources.default_image;
-            }
-        }
-
-        private void UpdateScroll()
-        {
-            int contentHeight = tableLayoutPanel2.RowCount * CARD_HEIGHT;
-            int visibleHeight = tableLayoutPanel2.ClientSize.Height;
-            vScrollBar2.Minimum = 0;
-            vScrollBar2.Maximum = Math.Max(0, contentHeight - visibleHeight);
-            vScrollBar2.LargeChange = visibleHeight / 2;
-            vScrollBar2.SmallChange = CARD_HEIGHT / 2;
-            vScrollBar2.Enabled = contentHeight > visibleHeight;
-        }
-
-        private void rjButton2_Click(object sender, EventArgs e)
-        {
-            var addForm = new addProduct { StartPosition = FormStartPosition.CenterScreen };
-            addForm.FormClosed += (s, args) => { this.Show(); LoadProducts(); };
-            addForm.Show();
-
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            UpdateScroll();
+            addProduct formProduct = new addProduct();
+            formProduct.StartPosition = FormStartPosition.CenterScreen;
+            formProduct.FormClosed += (s, args) => { CargarProductos(); };
+            formProduct.Show();
+            this.Hide();
         }
 
         private void btnGestionarProveedores_Click(object sender, EventArgs e)
         {
-            var addForm = new Proveedores { StartPosition = FormStartPosition.CenterScreen };
-            addForm.FormClosed += (s, args) => { this.Show(); LoadProducts(); };
-            addForm.Show();
+            Proveedores formProveedores = new Proveedores();
+            formProveedores.StartPosition = FormStartPosition.CenterScreen;
+            formProveedores.FormClosed += (s, args) => { this.Show(); };
+            formProveedores.Show();
             this.Hide();
         }
 
         private void btnGestionarUser_Click(object sender, EventArgs e)
         {
-            var addForm = new Usuarios { StartPosition = FormStartPosition.CenterScreen };
-            addForm.FormClosed += (s, args) => { this.Show(); LoadProducts(); };
-            addForm.Show();
+            Usuarios formUsuarios = new Usuarios();
+            formUsuarios.StartPosition = FormStartPosition.CenterScreen;
+            formUsuarios.FormClosed += (s, args) => { this.Show(); };
+            formUsuarios.Show();
             this.Hide();
+        }
+
+        public static implicit operator HomeAdmin(Login v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

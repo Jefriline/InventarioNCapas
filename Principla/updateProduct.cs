@@ -232,10 +232,7 @@ namespace Principal
                           MessageBoxButtons.OK,
                           success ? MessageBoxIcon.Information : MessageBoxIcon.Error);
 
-            if (success)
-            {
-                this.Close();
-            }
+         
         }
 
         private int ObtenerIdProveedorSeleccionado()
