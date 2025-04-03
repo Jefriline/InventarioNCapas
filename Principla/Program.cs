@@ -13,7 +13,7 @@ namespace Principla
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Home Homes = new Home();
+            HomeAdmin Homes = new HomeAdmin();
 
             Homes.StartPosition = FormStartPosition.CenterScreen;
 

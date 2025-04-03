@@ -571,7 +571,7 @@ namespace Principal
                     return;
                 }
 
-                float priceFlo = float.Parse(textBox2.Text);
+                decimal priceFlo = decimal.Parse(textBox2.Text);
                 int stockInt = int.Parse(textBoxStock.Text);
 
                 if (imagenSeleccionada == null || imagenSeleccionada.Length == 0)
@@ -621,7 +621,7 @@ namespace Principal
         private void rjButton1_Click(object sender, EventArgs e)
         {
 
-            Home formularioProducto = new Home();
+            HomeAdmin formularioProducto = new HomeAdmin();
 
 
             formularioProducto.StartPosition = FormStartPosition.CenterScreen;

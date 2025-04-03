@@ -1,49 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Modelo;
 using Modelo.Entities;
-
 
 namespace Logica
 {
     public class UsuarioController
     {
-        public CUsuario mostrarUsuario()
+        BaseDatos baseDatos = new BaseDatos();
+
+        public List<CUsuario> GetAll()
         {
-
-            CUsuario cUsuario = new CUsuario();
-            BaseDatos baseDatos = new BaseDatos();
-
-            cUsuario = baseDatos.CargarUsuarios();
-
-            return cUsuario;
+            try
+            {
+                return baseDatos.ObtenerTodosUsuarios();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al cargar usuarios: " + ex.Message);
+                return null;
+            }
         }
 
-
-        public string InsertarUsuarios(string name, string description)
+        public bool Insert(string nombreCompleto, string contrasena, string rol)
         {
-            string resultado = "";
-            BaseDatos baseDatos = new BaseDatos();
-
-            int filas = baseDatos.InsertarUsuario(name, description); 
-            if (filas > 0 )
+            try
             {
-                resultado = "Datos Guardados";
+                return baseDatos.AgregarUsuario(nombreCompleto, contrasena, rol) > 0;
             }
-            else
+            catch (Exception ex)
             {
-                resultado = "No se han guardado los datos";
+                Console.WriteLine("Error al agregar usuario: " + ex.Message);
+                return false;
             }
-
-            return resultado;
         }
 
-        public static implicit operator UsuarioController(ProductController v)
+        public bool Update(int idUsuario, string nombreCompleto, string contrasena, string rol)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return baseDatos.ModificarUsuario(idUsuario, nombreCompleto, contrasena, rol) > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al modificar usuario: " + ex.Message);
+                return false;
+            }
+        }
+
+        public bool Delete(int idUsuario)
+        {
+            try
+            {
+                return baseDatos.BorrarUsuario(idUsuario) > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al eliminar usuario: " + ex.Message);
+                return false;
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Principal
 {
-    partial class Home
+    partial class HomeAdmin
     {
         /// <summary>
         /// Required designer variable.
@@ -33,9 +33,11 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel3 = new TableLayoutPanel();
             rjButton2 = new RJButton();
+            btnGestionarProveedores = new RJButton();
+            btnGestionarUser = new RJButton();
             tableLayoutPanel5 = new TableLayoutPanel();
-            label1 = new Label();
             vScrollBar2 = new VScrollBar();
+            label1 = new Label();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
@@ -48,18 +50,18 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 2);
-            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 1, 4);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 1, 3);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel5, 2, 2);
             tableLayoutPanel1.Controls.Add(label1, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 5;
+            tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 0F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 75F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Size = new Size(1160, 666);
             tableLayoutPanel1.TabIndex = 0;
             // 
@@ -86,15 +88,17 @@
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F));
-            tableLayoutPanel3.Controls.Add(rjButton2, 1, 1);
+            tableLayoutPanel3.Controls.Add(rjButton2, 1, 0);
+            tableLayoutPanel3.Controls.Add(btnGestionarProveedores, 0, 0);
+            tableLayoutPanel3.Controls.Add(btnGestionarUser, 2, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(61, 601);
+            tableLayoutPanel3.Location = new Point(61, 568);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.RowCount = 3;
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 7.5F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
-            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 7.5F));
-            tableLayoutPanel3.Size = new Size(1038, 62);
+            tableLayoutPanel3.RowCount = 1;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel3.Size = new Size(1038, 95);
             tableLayoutPanel3.TabIndex = 1;
             // 
             // rjButton2
@@ -102,20 +106,63 @@
             rjButton2.BackColor = Color.Black;
             rjButton2.BackgroundColor = Color.Black;
             rjButton2.BorderColor = Color.Black;
-            rjButton2.BorderRadius = 20;
+            rjButton2.BorderRadius = 1;
             rjButton2.BorderSize = 1;
             rjButton2.FlatAppearance.BorderSize = 0;
             rjButton2.FlatStyle = FlatStyle.Flat;
             rjButton2.Font = new Font("Bahnschrift", 14F, FontStyle.Bold);
             rjButton2.ForeColor = Color.White;
-            rjButton2.Location = new Point(418, 7);
+            rjButton2.Location = new Point(418, 20);
+            rjButton2.Margin = new Padding(3, 20, 3, 3);
             rjButton2.Name = "rjButton2";
-            rjButton2.Size = new Size(200, 46);
+            rjButton2.Size = new Size(200, 54);
             rjButton2.TabIndex = 0;
             rjButton2.Text = "Agregar un Producto";
             rjButton2.TextColor = Color.White;
             rjButton2.UseVisualStyleBackColor = false;
             rjButton2.Click += rjButton2_Click;
+            // 
+            // btnGestionarProveedores
+            // 
+            btnGestionarProveedores.BackColor = Color.Black;
+            btnGestionarProveedores.BackgroundColor = Color.Black;
+            btnGestionarProveedores.BorderColor = Color.Black;
+            btnGestionarProveedores.BorderRadius = 1;
+            btnGestionarProveedores.BorderSize = 1;
+            btnGestionarProveedores.FlatAppearance.BorderSize = 0;
+            btnGestionarProveedores.FlatStyle = FlatStyle.Flat;
+            btnGestionarProveedores.Font = new Font("Bahnschrift", 14F, FontStyle.Bold);
+            btnGestionarProveedores.ForeColor = Color.White;
+            btnGestionarProveedores.Location = new Point(30, 20);
+            btnGestionarProveedores.Margin = new Padding(30, 20, 3, 3);
+            btnGestionarProveedores.Name = "btnGestionarProveedores";
+            btnGestionarProveedores.Size = new Size(200, 54);
+            btnGestionarProveedores.TabIndex = 1;
+            btnGestionarProveedores.Text = "Gestionar Proveedores";
+            btnGestionarProveedores.TextColor = Color.White;
+            btnGestionarProveedores.UseVisualStyleBackColor = false;
+            btnGestionarProveedores.Click += btnGestionarProveedores_Click;
+            // 
+            // btnGestionarUser
+            // 
+            btnGestionarUser.BackColor = Color.Black;
+            btnGestionarUser.BackgroundColor = Color.Black;
+            btnGestionarUser.BorderColor = Color.Black;
+            btnGestionarUser.BorderRadius = 1;
+            btnGestionarUser.BorderSize = 1;
+            btnGestionarUser.FlatAppearance.BorderSize = 0;
+            btnGestionarUser.FlatStyle = FlatStyle.Flat;
+            btnGestionarUser.Font = new Font("Bahnschrift", 14F, FontStyle.Bold);
+            btnGestionarUser.ForeColor = Color.White;
+            btnGestionarUser.Location = new Point(802, 20);
+            btnGestionarUser.Margin = new Padding(180, 20, 3, 3);
+            btnGestionarUser.Name = "btnGestionarUser";
+            btnGestionarUser.Size = new Size(200, 54);
+            btnGestionarUser.TabIndex = 2;
+            btnGestionarUser.Text = "Gestionar Usuarios";
+            btnGestionarUser.TextColor = Color.White;
+            btnGestionarUser.UseVisualStyleBackColor = false;
+            btnGestionarUser.Click += btnGestionarUser_Click;
             // 
             // tableLayoutPanel5
             // 
@@ -132,6 +179,14 @@
             tableLayoutPanel5.Size = new Size(52, 493);
             tableLayoutPanel5.TabIndex = 4;
             // 
+            // vScrollBar2
+            // 
+            vScrollBar2.Location = new Point(23, 0);
+            vScrollBar2.Name = "vScrollBar2";
+            vScrollBar2.Size = new Size(17, 80);
+            vScrollBar2.TabIndex = 0;
+            vScrollBar2.Visible = false;
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -144,14 +199,6 @@
             label1.TabIndex = 5;
             label1.Text = "Inventario";
             label1.TextAlign = ContentAlignment.TopCenter;
-            // 
-            // vScrollBar2
-            // 
-            vScrollBar2.Location = new Point(23, 0);
-            vScrollBar2.Name = "vScrollBar2";
-            vScrollBar2.Size = new Size(17, 80);
-            vScrollBar2.TabIndex = 0;
-            vScrollBar2.Visible = false;
             // 
             // Home
             // 
@@ -178,5 +225,7 @@
         private RJButton rjButton2;
         private ProgressBar progressBar1;
         private VScrollBar vScrollBar2;
+        private RJButton btnGestionarProveedores;
+        private RJButton btnGestionarUser;
     }
 }
